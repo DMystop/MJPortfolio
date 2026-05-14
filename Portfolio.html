@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Julio Mouls — Game Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080b12;
+      --bg2: #0f1420;
+      --bg3: #151c2e;
+      --text: #e8eaf2;
+      --muted: #6b7280;
+      --cyan: #00e5ff;
+      --purple: #b066ff;
+      --pink: #ff4081;
+      --green: #39ff82;
+      --border: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.03);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── SCANLINE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(8,11,18,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--purple); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2.5rem 4rem;
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+    }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--purple);
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.6rem;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #080b12;
+    }
+    .btn-primary:hover { background: #33ecff; transform: translateY(-1px); }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+
+    .hero-grid {
+      position: absolute;
+      top: 0; right: -100px;
+      width: 500px; height: 100%;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse at 60% 50%, black 30%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2.5rem; max-width: 1100px; margin: auto; }
+    section.full { max-width: none; padding: 6rem 2.5rem; }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    h2 span {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--muted);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,229,255,0.3);
+      transform: translateY(-4px);
+    }
+
+    .project-card:hover .project-accent { opacity: 1; }
+
+    .project-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%);
+    }
+
+    .project-body { padding: 1.25rem; }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+
+    .tag-cyan  { color: var(--cyan);   border-color: rgba(0,229,255,0.3);   background: rgba(0,229,255,0.05); }
+    .tag-purple{ color: var(--purple); border-color: rgba(176,102,255,0.3); background: rgba(176,102,255,0.05); }
+    .tag-pink  { color: var(--pink);   border-color: rgba(255,64,129,0.3);  background: rgba(255,64,129,0.05); }
+    .tag-green { color: var(--green);  border-color: rgba(57,255,130,0.3);  background: rgba(57,255,130,0.05); }
+
+    .project-body h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-body p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); max-width: none; }
+    #skills > div { max-width: 1100px; margin: auto; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-group {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+    }
+
+    .skill-group-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .skill-bar-wrap { margin-bottom: 0.6rem; }
+
+    .skill-name {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .skill-name span:last-child {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+
+    .contact-box {
+      max-width: 560px;
+      margin: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3rem;
+    }
+
+    .contact-box p { color: var(--muted); margin-bottom: 2rem; }
+
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      #hero { padding: 5rem 1.5rem 3rem; }
+      section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#hero">Julio<span>.</span>dev</a>
+    <ul>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#skills">Compétences</a></li>
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" style="max-width:100%; padding-left:clamp(1.5rem, 8vw, 8rem);">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <p class="hero-tag">// Game Developer &amp; Interactive Designer</p>
+    <h1>Je crée<br>des <em>mondes</em><br>jouables.</h1>
+    <p class="hero-desc">
+      Développeur de jeux vidéo passionné, je conçois des expériences interactives
+      mémorables — de l'idée au prototype final.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+      <a href="#contact" class="btn btn-outline">Me contacter</a>
+    </div>
+  </section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">// 01 — Réalisations</p>
+  <h2 class="reveal">Projets <span>récents</span></h2>
+  <div class="projects-grid">
+    <!-- Projet 1 -->
+    <div class="project-card reveal">
+      <div class="project-accent"></div>
+      <div class="project-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/E4nVXbBruLQ?si=O7bxD6ltQYDZjY6q"
+          title="Sunward"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="tag tag-cyan">Unreal Engine</span>
+          <span class="tag tag-purple">C++</span>
+          <span class="tag tag-orange">Blueprints</span>
+          <span class="tag tag-pink">Solo</span>
+          <span class="tag tag-yellow">Production</span>
+        </div>
+
+        <h3>Sunward</h3>
+
+        <p>
+          Jeu Plateformeur/Aventure dans lequel le personnage doit
+          remonter à la surface en explorant des biomes diversifiés.
+        </p>
+
+        <a href="#" class="project-link">Voir le projet →</a>
+      </div>
+    </div>
+
+    <!-- Projet 2 -->
+    <div class="project-card reveal">
+      <div class="project-accent"></div>
+
+      <div class="project-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/E4nVXbBruLQ?si=O7bxD6ltQYDZjY6q"
+          title="Imagiro"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="tag tag-green">Unreal Engine</span>
+          <span class="tag tag-cyan">C++</span>
+          <span class="tag tag-purple">Blueprint</span>
+          <span class="tag tag-yellow">Production</span>
+        </div>
+
+        <h3>Imagiro</h3>
+
+        <p>
+          Jeu de Plateforme/Aventure/Puzzle dans un monde d'origami.
+        </p>
+
+        <a href="#" class="project-link">Voir le projet →</a>
+      </div>
+    </div>
+
+    <!-- Projet 3 -->
+    <div class="project-card reveal">
+      <div class="project-accent"></div>
+
+      <div class="project-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/E4nVXbBruLQ?si=O7bxD6ltQYDZjY6q"
+          title="Galaxy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="tag tag-pink">Unreal Engine</span>
+          <span class="tag tag-cyan">C++</span>
+          <span class="tag tag-green">Projet Personnel</span>
+        </div>
+
+        <h3>Galaxy</h3>
+
+        <p>
+          Jeux Vidéo Plateforme/Aventure spatiale, avec un système
+          de gravité époustouflant.
+        </p>
+
+        <a href="#" class="project-link">Voir le projet →</a>
+      </div>
+    </div>
+
+    <!-- Projet 4 -->
+    <div class="project-card reveal">
+      <div class="project-accent"></div>
+
+      <div class="project-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/E4nVXbBruLQ?si=O7bxD6ltQYDZjY6q"
+          title="CurseForge"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="tag tag-purple">C#</span>
+          <span class="tag tag-cyan">WPF</span>
+          <span class="tag tag-pink">Team work</span>
+        </div>
+
+        <h3>CurseForge</h3>
+
+        <p>
+          Re création de l’application Curseforge
+        </p>
+
+        <a href="#" class="project-link">Voir le projet →</a>
+      </div>
+    </div>
+
+    <!-- Projet 5 -->
+    <div class="project-card reveal">
+      <div class="project-accent"></div>
+
+      <div class="project-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/E4nVXbBruLQ?si=O7bxD6ltQYDZjY6q"
+          title="Crypt Of The Necrodancer"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="tag tag-pink">SFML</span>
+          <span class="tag tag-cyan">C++</span>
+          <span class="tag tag-green">Team work</span>
+        </div>
+
+        <h3>Crypt Of The Necrodancer</h3>
+
+        <p>
+          Re création de Crypt Of The Necrodancer,
+          un jeu de rythme roguelike
+        </p>
+
+        <a href="#" class="project-link">Voir le projet →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="full" style="padding: 6rem 2.5rem;">
+    <div>
+      <p class="section-label reveal">// 02 — Stack technique</p>
+      <h2 class="reveal">Compétences</h2>
+
+      <div class="skills-grid">
+
+        <div class="skill-group reveal">
+          <p class="skill-group-title" style="color: var(--cyan);">Moteurs de jeu</p>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Unreal Engine</span><span>90%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--cyan)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Unity</span><span>80%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--cyan)"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <p class="skill-group-title" style="color: var(--purple);">Langages</p>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>C++</span><span>90%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--purple)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>C#</span><span>85%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="85" style="width:0;background:var(--purple)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Python</span><span>80%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--purple)"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <p class="skill-group-title" style="color: var(--pink);">Library</p>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>SFML C++</span><span>85%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="85" style="width:0;background:var(--pink)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>WPF C#</span><span>80%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--pink)"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <p class="skill-group-title" style="color: var(--green);">Logiciels</p>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Visual Studio 2022/2026</span><span>100%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="100" style="width:0;background:var(--green)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Git / GitHub</span><span>90%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--green)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>HacknPlan</span><span>80%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--green)"></div></div>
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-name"><span>Blender</span><span>50%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-width="50" style="width:0;background:var(--green)"></div></div>
+          </div>
+
+          
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">// 03 — À propos</p>
+    <h2 class="reveal">Qui <span>suis-je ?</span></h2>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Passionné de jeux vidéo depuis l'enfance, j'ai transformé cette passion en métier.
+          J'ai commencé par créer de petit jeux sur scratch, avant de me plonger dans des projets plus ambitieux avec Unreal Engine et Unity.
+          Je développe des jeux depuis 3 ans, en solo et en équipe, avec une attention 
+          particulière au <em>game feel</em> et aux mécaniques qui donnent envie de rejouer.
+        </p>
+        <p>
+          J'aime particulièrement les jeux indépendants qui prennent des risques 
+          créatifs — c'est ce qui guide ma propre approche de design.
+        </p>
+        <p>
+          Disponible pour des collaborations, game jams, et opportunités de travail à temps plein ou freelance.
+        </p>
+        <div style="margin-top: 1.5rem;">
+          <a href="#" class="btn btn-outline" style="font-size:0.8rem;">Télécharger mon CV →</a>
+        </div>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-box">
+          <div class="stat-num" style="color:var(--cyan);">10+</div>
+          <div class="stat-label">Développement sur des jeux</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:var(--pink);">3</div>
+          <div class="stat-label">Années d'XP</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:var(--green);">2</div>
+          <div class="stat-label">Moteurs maîtrisés</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="max-width:700px;">
+    <p class="section-label reveal" style="text-align:center;">// 04 — Contact</p>
+    <h2 class="reveal" style="text-align:center;">Travaillons <span>ensemble</span></h2>
+    <div class="contact-box reveal">
+      <p>Une idée de projet ? Une collaboration ? N'hésitez pas à me contacter.</p>
+      <div class="contact-links">
+        <a href="mailto:mouls.julio@gmail.com" class="btn btn-primary">Email</a>
+        <a href="https://github.com/DMystop" class="btn btn-outline">GitHub</a>
+        <a href="https://www.linkedin.com/in/julio-mouls/" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Julio Mouls — Fait avec ❤️ et trop de café</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('in'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Animated skill bars
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skill-group').forEach(g => barObserver.observe(g));
+  </script>
+</body>
+</html>
