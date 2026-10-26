@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Julio Mouls — Game Developer</title>
-    <meta name="description" content="Portfolio de Julio Mouls, développeur de jeux vidéo passionné. Projets Unreal Engine, Unity, C++, C#." />
+    <meta name="description" data-i18n-attr="content:meta.desc" content="Portfolio de Julio Mouls, développeur de jeux vidéo passionné. Projets Unreal Engine, Unity, C++, C#." />
     <meta property="og:title" content="Julio Mouls — Game Developer" />
-    <meta property="og:description" content="Développeur de jeux vidéo passionné — Unreal Engine, Unity, C++, C#." />
+    <meta property="og:description" data-i18n-attr="content:meta.ogdesc" content="Développeur de jeux vidéo passionné — Unreal Engine, Unity, C++, C#." />
     <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
@@ -22,12 +22,19 @@
         <a class="logo" href="#hero">
             <span class="logo-name">Julio</span><span class="logo-dot">.</span><span class="logo-dev">dev</span>
         </a>
-        <ul>
-            <li><a href="#projects" data-section="projects">Projets</a></li>
-            <li><a href="#skills" data-section="skills">Compétences</a></li>
-            <li><a href="#about" data-section="about">À propos</a></li>
-            <li><a href="#contact" data-section="contact">Contact</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul>
+                <li><a href="#projects" data-section="projects" data-i18n="nav.projects">Projets</a></li>
+                <li><a href="#skills" data-section="skills" data-i18n="nav.skills">Compétences</a></li>
+                <li><a href="#about" data-section="about" data-i18n="nav.about">À propos</a></li>
+                <li><a href="#contact" data-section="contact" data-i18n="nav.contact">Contact</a></li>
+            </ul>
+            <!-- Sélecteur de langue -->
+            <div class="lang-switch" role="group" aria-label="Langue / Language">
+                <button type="button" class="lang-btn active" data-lang="fr" aria-pressed="true">FR</button>
+                <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+        </div>
     </nav>
 
     <!-- ── HERO ──────────────────────────────────── -->
@@ -37,18 +44,18 @@
         <div class="hero-typing-wrap" aria-live="polite">
             <span id="hero-typing"></span><span id="hero-cursor" aria-hidden="true"></span>
         </div>
-        <h1>Je crée<br>des <em>mondes</em><br>jouables.</h1>
-        <p class="hero-desc">Développeur de jeux vidéo passionné, je conçois des expériences interactives mémorables — de l'idée au prototype final.</p>
+        <h1 data-i18n="hero.title">Je crée<br>des <em>mondes</em><br>jouables.</h1>
+        <p class="hero-desc" data-i18n="hero.desc">Développeur de jeux vidéo passionné, je conçois des expériences interactives mémorables — de l'idée au prototype final.</p>
         <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary">Voir mes projets</a>
-            <a href="#contact" class="btn btn-outline">Me contacter</a>
+            <a href="#projects" class="btn btn-primary" data-i18n="hero.cta1">Voir mes projets</a>
+            <a href="#contact" class="btn btn-outline" data-i18n="hero.cta2">Me contacter</a>
         </div>
     </section>
 
     <!-- ── PROJECTS ──────────────────────────────── -->
     <section id="projects">
-        <p class="section-label reveal" data-type-text="// 01 — Réalisations"></p>
-        <h2 class="reveal">Projets <span>récents</span></h2>
+        <p class="section-label reveal" data-type-text="// 01 — Réalisations" data-i18n-type="label.projects"></p>
+        <h2 class="reveal" data-i18n="title.projects">Projets <span>récents</span></h2>
         <div class="projects-grid">
 
             <div class="project-card reveal">
@@ -69,8 +76,8 @@
                         <span class="tag tag-yellow">Production</span>
                     </div>
                     <h3>Sunward</h3>
-                    <p>Jeu Plateformeur/Aventure dans lequel le personnage doit remonter à la surface en explorant des biomes diversifiés.</p>
-                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link">Bientôt disponible sur Steam</a>
+                    <p data-i18n="sunward.desc">Jeu Plateformeur/Aventure dans lequel le personnage doit remonter à la surface en explorant des biomes diversifiés.</p>
+                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link" data-i18n="sunward.link">Bientôt disponible sur Steam</a>
                 </div>
             </div>
 
@@ -91,8 +98,8 @@
                         <span class="tag tag-yellow">Production</span>
                     </div>
                     <h3>Imagiro</h3>
-                    <p>Jeu de Plateforme/Aventure/Puzzle dans un monde d'origami.</p>
-                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link">Voir le projet →</a>
+                    <p data-i18n="imagiro.desc">Jeu de Plateforme/Aventure/Puzzle dans un monde d'origami.</p>
+                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link" data-i18n="project.view">Voir le projet →</a>
                 </div>
             </div>
 
@@ -109,11 +116,11 @@
                     <div class="project-tags">
                         <span class="tag tag-pink">Unreal Engine</span>
                         <span class="tag tag-cyan">C++</span>
-                        <span class="tag tag-green">Projet Personnel</span>
+                        <span class="tag tag-green" data-i18n="tag.personal">Projet Personnel</span>
                     </div>
                     <h3>Galaxy</h3>
-                    <p>Jeu Vidéo Plateforme/Aventure spatiale, avec un système de gravité époustouflant.</p>
-                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link"> Projet en développement, contactez moi pour une version de test</a>
+                    <p data-i18n="galaxy.desc">Jeu Vidéo Plateforme/Aventure spatiale, avec un système de gravité époustouflant.</p>
+                    <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="project-link" data-i18n="galaxy.link"> Projet en développement, contactez moi pour une version de test</a>
                 </div>
             </div>
 
@@ -133,8 +140,8 @@
                         <span class="tag tag-pink">Team work</span>
                     </div>
                     <h3>CurseForge</h3>
-                    <p>Recréation de l'application CurseForge en C# / WPF.</p>
-                    <a href="https://github.com/DamienP1602/CurseForgeLauncher" target="_blank" rel="noopener" class="project-link">Voir le projet →</a>
+                    <p data-i18n="curse.desc">Recréation de l'application CurseForge en C# / WPF.</p>
+                    <a href="https://github.com/DamienP1602/CurseForgeLauncher" target="_blank" rel="noopener" class="project-link" data-i18n="project.view">Voir le projet →</a>
                 </div>
             </div>
 
@@ -151,8 +158,8 @@
                         <span class="tag tag-green">Team work</span>
                     </div>
                     <h3>Crypt Of The Necrodancer</h3>
-                    <p>Recréation de Crypt Of The Necrodancer, un jeu de rythme roguelike.</p>
-                    <a href="https://github.com/UltiRed8/CryptOfTheNecrodancer" target="_blank" rel="noopener" class="project-link">Voir le projet →</a>
+                    <p data-i18n="crypt.desc">Recréation de Crypt Of The Necrodancer, un jeu de rythme roguelike.</p>
+                    <a href="https://github.com/UltiRed8/CryptOfTheNecrodancer" target="_blank" rel="noopener" class="project-link" data-i18n="project.view">Voir le projet →</a>
                 </div>
             </div>
 
@@ -173,8 +180,8 @@
                         <span class="tag tag-green">Team work</span>
                     </div>
                     <h3>Super Granny Racing</h3>
-                    <p> Controllez une grand-mère et son caddie dans un supermarché, elle doit affronter d'autres grand-mères et récupérer le plus radidement les articles de sa liste de courses pour arriver à la caisse en 1er ! Développé en 2 semaines.</p>
-                    <a href="https://github.com/Harull/SuperGrannyRacing" target="_blank" rel="noopener" class="project-link">Voir le projet →</a>
+                    <p data-i18n="granny.desc"> Controllez une grand-mère et son caddie dans un supermarché, elle doit affronter d'autres grand-mères et récupérer le plus radidement les articles de sa liste de courses pour arriver à la caisse en 1er ! Développé en 2 semaines.</p>
+                    <a href="https://github.com/Harull/SuperGrannyRacing" target="_blank" rel="noopener" class="project-link" data-i18n="project.view">Voir le projet →</a>
                 </div>
             </div>
 
@@ -184,34 +191,42 @@
     <!-- ── SKILLS ─────────────────────────────────── -->
     <section id="skills" class="full" style="padding: 6rem 2.5rem;">
         <div>
-            <p class="section-label reveal" data-type-text="// 02 — Stack technique"></p>
-            <h2 class="reveal">Compétences</h2>
+            <p class="section-label reveal" data-type-text="// 02 — Stack technique" data-i18n-type="label.skills"></p>
+            <h2 class="reveal" data-i18n="title.skills">Compétences</h2>
             <div class="skills-grid">
 
-                <div class="skill-group reveal">
-                    <p class="skill-group-title" style="color: var(--cyan);">Moteurs de jeu</p>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>Unreal Engine</span><span>90%</span></div><div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--cyan)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>Unity</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--cyan)"></div></div></div>
+                <div class="skill-group reveal" style="--c: var(--cyan);">
+                    <p class="skill-group-title" data-i18n="skills.engines">Moteurs de jeu</p>
+                    <ul class="skill-list">
+                        <li style="--i:0">Unreal Engine</li>
+                        <li style="--i:1">Unity</li>
+                    </ul>
                 </div>
 
-                <div class="skill-group reveal">
-                    <p class="skill-group-title" style="color: var(--purple);">Langages</p>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>C++</span><span>90%</span></div><div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--purple)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>C#</span><span>85%</span></div><div class="bar-track"><div class="bar-fill" data-width="85" style="width:0;background:var(--purple)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>Python</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--purple)"></div></div></div>
+                <div class="skill-group reveal" style="--c: var(--purple);">
+                    <p class="skill-group-title" data-i18n="skills.languages">Langages</p>
+                    <ul class="skill-list">
+                        <li style="--i:0">C++</li>
+                        <li style="--i:1">C#</li>
+                        <li style="--i:2">Python</li>
+                    </ul>
                 </div>
 
-                <div class="skill-group reveal">
-                    <p class="skill-group-title" style="color: var(--pink);">Library</p>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>SFML C++</span><span>85%</span></div><div class="bar-track"><div class="bar-fill" data-width="85" style="width:0;background:var(--pink)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>WPF C#</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--pink)"></div></div></div>
+                <div class="skill-group reveal" style="--c: var(--pink);">
+                    <p class="skill-group-title" data-i18n="skills.libraries">Library</p>
+                    <ul class="skill-list">
+                        <li style="--i:0">SFML C++</li>
+                        <li style="--i:1">WPF C#</li>
+                    </ul>
                 </div>
 
-                <div class="skill-group reveal">
-                    <p class="skill-group-title" style="color: var(--green);">Logiciels</p>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>Visual Studio</span><span>100%</span></div><div class="bar-track"><div class="bar-fill" data-width="100" style="width:0;background:var(--green)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>Git / GitHub</span><span>90%</span></div><div class="bar-track"><div class="bar-fill" data-width="90" style="width:0;background:var(--green)"></div></div></div>
-                    <div class="skill-bar-wrap"><div class="skill-name"><span>HacknPlan</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" data-width="80" style="width:0;background:var(--green)"></div></div></div>
+                <div class="skill-group reveal" style="--c: var(--green);">
+                    <p class="skill-group-title" data-i18n="skills.software">Logiciels</p>
+                    <ul class="skill-list">
+                        <li style="--i:0">Visual Studio</li>
+                        <li style="--i:1">Git / GitHub</li>
+                        <li style="--i:2">HacknPlan</li>
+                    </ul>
                 </div>
 
             </div>
@@ -220,8 +235,8 @@
 
     <!-- ── ABOUT ──────────────────────────────────── -->
     <section id="about">
-        <p class="section-label reveal" data-type-text="// 03 — À propos"></p>
-        <h2 class="reveal">Qui <span>suis-je ?</span></h2>
+        <p class="section-label reveal" data-type-text="// 03 — À propos" data-i18n-type="label.about"></p>
+        <h2 class="reveal" data-i18n="title.about">Qui <span>suis-je ?</span></h2>
         <div class="about-grid">
 
             <div class="about-avatar reveal">
@@ -239,19 +254,20 @@
             </div>
 
             <div class="about-text reveal">
-                <p>Passionné de jeux vidéo depuis l'enfance, j'ai transformé cette passion en métier. J'ai commencé par créer de petits jeux sur Scratch, avant de me plonger dans des projets plus ambitieux avec Unreal Engine et Unity. Je développe des jeux depuis 3 ans, en solo et en équipe, avec une attention particulière au <em>game feel</em> et aux mécaniques qui donnent envie de rejouer.</p>
-                <p>J'aime particulièrement les jeux indépendants qui prennent des risques créatifs — c'est ce qui guide ma propre approche de design.</p>
-                <p>Disponible pour des collaborations, game jams, et opportunités de travail à temps plein ou freelance.</p>
+                <p data-i18n="about.p1">Passionné de jeux vidéo depuis l'enfance, j'ai transformé cette passion en métier. J'ai commencé par créer de petits jeux sur Scratch, avant de me plonger dans des projets plus ambitieux avec Unreal Engine et Unity. Je développe des jeux depuis 3 ans, en solo et en équipe, avec une attention particulière au <em>game feel</em> et aux mécaniques qui donnent envie de rejouer.</p>
+                <p data-i18n="about.p2">J'aime particulièrement les jeux indépendants qui prennent des risques créatifs — c'est ce qui guide ma propre approche de design.</p>
+                <p data-i18n="about.p3">Disponible pour des collaborations, game jams, et opportunités de travail à temps plein ou freelance.</p>
                 <div style="margin-top: 1.5rem;">
-                    <!-- Placez votre CV dans le même dossier que index.html sous le nom "cv.pdf" -->
-                    <a href="cv.pdf" download class="btn btn-outline" style="font-size:0.8rem;">Télécharger mon CV →</a>
+                    <!-- Placez vos CV dans le même dossier que index.html : "cv-fr.pdf" (français) et "cv-en.pdf" (anglais).
+                         Le lien est mis à jour automatiquement selon la langue choisie (voir main.js, const CV_FILES). -->
+                    <a id="cv-link" href="cv-fr.pdf" download="CV-Julio-Mouls-FR.pdf" class="btn btn-outline" style="font-size:0.8rem;" data-i18n="about.cv">Télécharger mon CV →</a>
                 </div>
             </div>
 
             <div class="about-stats reveal">
-                <div class="stat-box"><div class="stat-num" style="color:var(--cyan);">10+</div><div class="stat-label">Projets réalisés</div></div>
-                <div class="stat-box"><div class="stat-num" style="color:var(--pink);">3</div><div class="stat-label">Années d'XP</div></div>
-                <div class="stat-box"><div class="stat-num" style="color:var(--green);">2</div><div class="stat-label">Moteurs maîtrisés</div></div>
+                <div class="stat-box"><div class="stat-num" style="color:var(--cyan);">10+</div><div class="stat-label" data-i18n="stat.projects">Projets réalisés</div></div>
+                <div class="stat-box"><div class="stat-num" style="color:var(--pink);">3</div><div class="stat-label" data-i18n="stat.xp">Ans de formations</div></div>
+                <div class="stat-box"><div class="stat-num" style="color:var(--green);">2</div><div class="stat-label" data-i18n="stat.engines">Moteurs maîtrisés</div></div>
             </div>
 
         </div>
@@ -259,10 +275,10 @@
 
     <!-- ── CONTACT ────────────────────────────────── -->
     <section id="contact" style="max-width:700px;">
-        <p class="section-label reveal" data-type-text="// 04 — Contact" style="text-align:center;"></p>
-        <h2 class="reveal" style="text-align:center;">Travaillons <span>ensemble</span></h2>
+        <p class="section-label reveal" data-type-text="// 04 — Contact" data-i18n-type="label.contact" style="text-align:center;"></p>
+        <h2 class="reveal" style="text-align:center;" data-i18n="title.contact">Travaillons <span>ensemble</span></h2>
         <div class="contact-box reveal">
-            <p>Une idée de projet ? Une collaboration ? N'hésitez pas à me contacter.</p>
+            <p data-i18n="contact.text">Une idée de projet ? Une collaboration ? N'hésitez pas à me contacter.</p>
             <div class="contact-links">
                 <a href="mailto:mouls.julio@gmail.com" class="btn btn-primary">Email</a>
                 <a href="https://github.com/DMystop" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
@@ -272,10 +288,10 @@
     </section>
 
     <footer>
-        <p>© 2026 Julio Mouls — Vive le code</p>
+        <p data-i18n="footer.text">© 2026 Julio Mouls — Vive le code</p>
     </footer>
 
-    <button id="back-to-top" aria-label="Retour en haut">
+    <button id="back-to-top" aria-label="Retour en haut" data-i18n-attr="aria-label:a11y.top">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="18 15 12 9 6 15" />
         </svg>
